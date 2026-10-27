@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures/testOptions';
 
 test.describe('Flujo de Checkout E2E', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('https://www.demoblaze.com/');
+    await page.goto('/');
   });
 
   test('Debería realizar una compra completa con éxito', async ({
@@ -11,18 +11,25 @@ test.describe('Flujo de Checkout E2E', () => {
     header,
     cartPage,
   }) => {
-    // 1. Navegar al producto y agregarlo al carrito
-    await homePage.selectProduct('Nokia lumia 1520');
+
+    const productName = 'Nokia lumia 1520';
+
+
+    // 1. Dentro de el Home de la pagina, Seleccionamos el producto. 
+    await homePage.selectProduct(productName);
     await productPage.addToCart();
 
-    // 2. Ir al carrito
-    await header.clickCart();
+   // Le damos click al carrito con lo elegido. 
+    await header.clickCart(); 
 
-    // 3. Validar que cargó el total
+    //Verificamos que el total de la compra pertenezca a nuestro producto en cuestion. 
     await expect(cartPage.totalAmount).toBeVisible();
+    await expect(cartPage.page.getByRole("cell"  ,{name: productName })).toBeVisible(); 
 
-    // 4. Abrir modal y completar datos de compra
-    await cartPage.clickPlaceOrder();
+    //iniciamos y completamos la compra. 
+
+    await cartPage.clickPlaceOrder(); 
+
     await cartPage.fillOrderForm({
       name: 'Dario Velez',
       country: 'Argentina',
@@ -31,12 +38,13 @@ test.describe('Flujo de Checkout E2E', () => {
       month: '12',
       year: '2026',
     });
-
-    // 5. Validar mensaje de éxito
-    await expect(cartPage.successModal).toBeVisible();
+     
+    await cartPage.clickPurchase(); 
+    await expect(cartPage.successModal).toBeVisible(); 
     await expect(cartPage.successModal).toContainText('Thank you for your purchase!');
+     
+     await cartPage.closeSuccessModal(); 
+     }); 
+}); 
 
-    // 6. Cerrar modal
-    await cartPage.confirmPurchase();
-  });
-});
+
