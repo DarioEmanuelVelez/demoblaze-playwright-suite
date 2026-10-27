@@ -12,9 +12,7 @@ export default defineConfig({
   reporter: 'html',
 
   use: {
-    // 2. Base URL centralizada
     baseURL: 'https://www.demoblaze.com',
-    // Ahora 'on-first-retry' tiene sentido porque en CI sí hay reintentos
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

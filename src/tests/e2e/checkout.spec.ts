@@ -2,7 +2,7 @@ import { test, expect } from '../../fixtures/testOptions';
 
 test.describe('Flujo de Checkout E2E', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto('https://www.demoblaze.com');
   });
 
   test('Debería realizar una compra completa con éxito', async ({

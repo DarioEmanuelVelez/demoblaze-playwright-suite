@@ -12,6 +12,6 @@
   },
   "include": [
     "src/**/*",
-    "src/playwright.config.ts"
+    "playwright.config.ts"
   ]
 }
